@@ -9,6 +9,8 @@ import plotly.graph_objs as go
 import matplotlib.pyplot as plt
 from bson import ObjectId
 from dotenv import load_dotenv
+from shapely.geometry import Point
+from shapely.geometry.polygon import Polygon
 
 load_dotenv()
 
@@ -79,6 +81,65 @@ for n, result in enumerate(results['results']):
 					opacity = 0.0
 				),
 				name = f"person {n}'s locations"
+			)
+		)
+
+'''
+# This functionality is in beta and is not yet ready for release.
+# It currently only (kind of) works for two areas.
+'''
+overlap_poly = []
+for i in range(len(results['results'][0]['shapes'])):
+	overlap_poly.append([])
+	polygon = Polygon([list(k.values()) for k in results['results'][0]['shapes'][i]['shell']])
+	for j in range(len(results['results'][1]['shapes'])):
+		for points in results['results'][1]['shapes'][j]['shell']:
+			point = Point(list(points.values()))
+			if polygon.contains(point):
+				overlap_poly[i].append(list(points.values()))
+		if overlap_poly[i] != []:
+			polygon_2 = Polygon([list(k.values()) for k in results['results'][1]['shapes'][j]['shell']])
+			for points in results['results'][0]['shapes'][i]['shell']:
+				point_2 = Point(list(points.values()))
+				if polygon_2.contains(point_2):
+					overlap_poly[i].append(list(points.values()))
+
+cmap = np.array([matplotlib.cm.viridis(norm(i), bytes = True) for i in clustering.labels_])
+
+zoopla_requests = []
+for i in overlap_poly:
+	if i != []:
+		lats = [j[0] for j in i]
+		lons = [j[1] for j in i]
+
+		lat_min = min(lats)
+		lat_max = max(lats)
+		lon_min = min(lons)
+		lon_max = max(lons)
+
+		#zoop_req = zoopla_req
+
+		#zoop_req['lat_min'] = lat_min
+		#zoop_req['lat_max'] = lat_max
+		#zoop_req['lon_min'] = lon_min
+		#zoop_req['lon_max'] = lon_max
+
+		#zoopla_requests.append(zoop_req)
+
+		data.append(
+			go.Scattermapbox(
+				fill = "toself",
+				lat = lats,
+				lon = lons,
+				mode = 'markers',
+				marker = go.scattermapbox.Marker(
+					size = 10,
+					color = 'rgb(200, 0, 0)',
+					opacity = 0.0
+				),
+				#hovertext = sp,
+				#hoverinfo = 'text',
+				name = 'overlap locations'
 			)
 		)
 

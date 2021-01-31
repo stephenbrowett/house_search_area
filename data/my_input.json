@@ -1,0 +1,38 @@
+[{
+	"id" : "",
+	"coords" : {
+		"lat" : 52.475216,
+		"lng" : -1.883705
+	},
+	"transportation" : {
+		"type" : "driving+train",
+		"pt_change_delay" : 300,
+		"walking_time" : 1800,
+		"driving_time_to_station" : 1500,
+		"parking_time" : 300
+	},
+	"travel_time" : 4800,
+	"arrival_time" : "2021-02-15T09:00:00Z",
+	"range" : {
+		"enabled" : "True",
+		"width" : 1800
+	}
+},
+{
+	"id" : "",
+	"coords" : {
+		"lat" : 52.282494,
+		"lng" : -1.590343
+	},
+	"transportation" : {
+		"type" : "driving",
+		"walking_time" : 600,
+		"parking_time" : 600
+	},
+	"travel_time" : 3000,
+	"arrival_time" : "2021-02-15T09:00:00Z",
+	"range" : {
+		"enabled" : "True",
+		"width" : 1200
+	}
+}]

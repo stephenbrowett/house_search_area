@@ -1,2 +1,4 @@
 .env
 *.html
+in_progress.txt
+data\my_input.json
